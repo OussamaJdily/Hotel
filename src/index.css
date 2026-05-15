@@ -330,6 +330,191 @@ body::before {
     transform: translateY(0) translateZ(72px);
   }
 
+  /* Pinned horizontal scroll — gallery */
+  .gallery-pin-section {
+    @apply bg-transparent;
+  }
+
+  .gallery-pin-viewport {
+    @apply overflow-hidden;
+  }
+
+  .gallery-h-track {
+    @apply gap-5 pl-6 pr-6 md:gap-7 md:pl-12 md:pr-12;
+  }
+
+  .gallery-h-slide {
+    @apply relative h-full w-[88vw] shrink-0 overflow-hidden rounded-[2rem] border border-black/10 dark:border-white/10 md:w-[72vw] md:max-w-[980px] md:rounded-[2.5rem];
+    scroll-snap-align: center;
+    box-shadow: 0 28px 80px rgba(31, 25, 18, 0.14);
+  }
+
+  .dark .gallery-h-slide {
+    box-shadow: 0 32px 90px rgba(0, 0, 0, 0.48);
+  }
+
+  .gallery-h-slide-img {
+    @apply h-full w-full object-cover;
+    transform: scale(1.04);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .gallery-h-slide:hover .gallery-h-slide-img {
+    transform: scale(1.08);
+  }
+
+  .gallery-h-slide-scrim {
+    @apply pointer-events-none absolute inset-0;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.55) 100%),
+      linear-gradient(45deg, rgba(200, 169, 107, 0.12), transparent 40%);
+  }
+
+  .gallery-h-slide-badge {
+    @apply absolute left-5 top-5 z-20 flex items-center gap-3 rounded-full border border-white/15 bg-black/35 px-4 py-2 backdrop-blur-md;
+  }
+
+  .gallery-h-slide-copy {
+    @apply absolute bottom-6 left-6 right-6 z-20 md:bottom-8 md:left-8 md:right-8;
+  }
+
+  .h-scroll-progress {
+    @apply relative h-[2px] w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10;
+  }
+
+  .h-scroll-progress-fill {
+    @apply absolute inset-0 origin-left rounded-full bg-gradient-to-r from-[#C8A96B] via-[#E2C792] to-[#C8A96B];
+    transition: transform 0.15s linear;
+    will-change: transform;
+  }
+
+  @media (max-width: 767px) {
+    .gallery-pin-viewport,
+    .rooms-pin-viewport {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .gallery-pin-viewport::-webkit-scrollbar,
+    .rooms-pin-viewport::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-h-track,
+    .rooms-h-track {
+      transform: none !important;
+    }
+  }
+
+  /* Pinned horizontal scroll — rooms */
+  .rooms-pin-section {
+    @apply bg-transparent;
+  }
+
+  .rooms-pin-viewport {
+    @apply overflow-hidden;
+  }
+
+  .room-h-card {
+    @apply relative flex w-[min(88vw,400px)] shrink-0 flex-col overflow-hidden rounded-[2rem] border border-black/10 bg-white/60 backdrop-blur-[34px] dark:border-white/10 dark:bg-[#080a0d]/60 md:w-[min(42vw,460px)] md:rounded-[2.5rem];
+    scroll-snap-align: center;
+    box-shadow: 0 28px 80px rgba(31, 25, 18, 0.12);
+    transition: border-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
+  }
+
+  .room-h-card:hover {
+    @apply border-[#C8A96B]/40;
+    transform: translateY(-6px);
+    box-shadow: 0 34px 100px rgba(112, 82, 38, 0.16);
+  }
+
+  .room-h-card--featured {
+    @apply border-[#C8A96B]/35;
+    box-shadow: 0 34px 110px rgba(200, 169, 107, 0.14);
+  }
+
+  .room-h-card-media {
+    @apply relative aspect-[4/5] overflow-hidden;
+  }
+
+  .room-h-card-img {
+    @apply h-full w-full object-cover transition-transform duration-1000 ease-out;
+    transform: scale(1.05);
+  }
+
+  .room-h-card:hover .room-h-card-img {
+    transform: scale(1.1);
+  }
+
+  .room-h-card-media-scrim {
+    @apply absolute inset-0;
+    background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.82) 100%);
+  }
+
+  .room-h-card-flag {
+    @apply absolute left-5 top-5 z-20 inline-flex items-center gap-2 rounded-full border border-[#C8A96B]/40 bg-black/50 px-4 py-1.5 font-lato text-[9px] font-black uppercase tracking-[0.28em] text-[#E2C792] backdrop-blur-md;
+  }
+
+  .room-h-card-price {
+    @apply absolute bottom-5 left-5 right-5 z-20 flex items-end gap-2;
+  }
+
+  .room-h-card-price-value {
+    @apply font-playfair text-[36px] leading-none text-white md:text-[42px];
+  }
+
+  .room-h-card-price-unit {
+    @apply pb-1 font-lato text-[10px] font-black uppercase tracking-[0.24em] text-white/55;
+  }
+
+  .room-h-card-body {
+    @apply flex flex-1 flex-col gap-4 p-7 md:p-8;
+  }
+
+  .room-h-card-tier {
+    @apply font-lato text-[10px] font-black uppercase tracking-[0.34em] text-[#C8A96B];
+  }
+
+  .room-h-card-title {
+    @apply font-playfair text-[28px] leading-tight text-black dark:text-white md:text-[32px];
+  }
+
+  .room-h-card-desc {
+    @apply font-lato text-[14px] font-light leading-relaxed text-black/55 dark:text-white/45;
+  }
+
+  .room-h-card-specs {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .room-h-card-specs li {
+    @apply rounded-full border border-black/10 bg-black/5 px-3 py-1.5 font-lato text-[9px] font-black uppercase tracking-[0.2em] text-black/45 dark:border-white/10 dark:bg-white/5 dark:text-white/40;
+  }
+
+  .room-h-card-icons {
+    @apply flex gap-3 text-[#C8A96B]/60;
+  }
+
+  .room-h-card-icons span {
+    @apply flex h-9 w-9 items-center justify-center rounded-full border border-black/10 dark:border-white/10;
+  }
+
+  .room-h-card-cta {
+    @apply mt-auto flex w-full items-center justify-center gap-3 rounded-2xl bg-black py-4 font-lato text-[11px] font-black uppercase tracking-[0.28em] text-white transition-colors duration-500 hover:bg-[#C8A96B] hover:text-black dark:bg-white dark:text-black dark:hover:bg-[#C8A96B];
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-h-slide-img,
+    .room-h-card-img,
+    .room-h-card,
+    .h-scroll-progress-fill {
+      transition: none !important;
+    }
+  }
+
   .section-label {
     font-family: 'Marcellus', serif;
     font-size: 11px;

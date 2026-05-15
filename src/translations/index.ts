@@ -41,20 +41,47 @@ export const translations = {
     },
     rooms: {
       label: 'Sanctuaries',
-      title_line1: 'Elite',
-      title_line2: 'Retreats',
-      imperial: {
-        name: 'Imperial Suite',
-        desc: 'Panoramic views with private infinity garden and smart-glass tech.'
+      title_line1: 'Rooms &',
+      title_line2: 'Suites',
+      subtitle: 'Four sanctuaries. One horizontal journey through Ivory hospitality.',
+      scrollHint: 'Scroll horizontally through suites',
+      perNight: '/ Night',
+      explore: 'Explore Suite',
+      featured: 'Signature',
+      specs: {
+        area65: '65m²',
+        area82: '82m²',
+        area95: '95m²',
+        area120: '120m²',
+        poolView: 'Pool View',
+        oceanView: 'Ocean View',
+        gardenView: 'Garden View',
+        cityView: 'City View',
+        smartHud: 'Smart HUD',
+        butlerLite: 'Butler Lite',
+        terrace: 'Private Terrace',
+        infinityPool: 'Infinity Pool',
+      },
+      deluxe: {
+        tier: 'Deluxe',
+        name: 'Deluxe Room',
+        desc: 'Refined comfort with pool vistas, neural climate, and bespoke Ivory linens.',
+      },
+      premium: {
+        tier: 'Premium',
+        name: 'Premium Suite',
+        desc: 'Expanded living quarters with ocean panorama and curated art installations.',
       },
       royal: {
-        name: 'Royal Palm Suite',
-        desc: 'Art Deco elegance meets modern high-tech comfort and soul.'
+        tier: 'Royal',
+        name: 'Royal Suite',
+        desc: 'Art Deco grandeur with private terrace, butler protocol, and golden-hour views.',
       },
-      nomad: {
-        name: 'Nomad Chic Studio',
-        desc: 'Minimalist luxury designed for the modern global explorer.'
-      }
+      presidential: {
+        tier: 'Presidential',
+        name: 'Presidential Villa',
+        desc: 'The apex of Maison Anfa — infinity garden, smart-glass walls, absolute privacy.',
+      },
     },
     services: {
       label: 'Excellence',
@@ -75,7 +102,9 @@ export const translations = {
     },
     gallery: {
       label: 'Visuals',
-      title: 'The Gallery'
+      title: 'The Gallery',
+      subtitle: 'A dimensional tour through arrival, water, wellness, dining, and private-club moments.',
+      scrollHint: 'Scroll to explore each frame',
     },
     testimonials: {
       label: 'Reflections',
@@ -141,20 +170,47 @@ export const translations = {
     },
     rooms: {
       label: 'Sanctuaires',
-      title_line1: 'Retraites',
-      title_line2: 'd\'Élite',
-      imperial: {
-        name: 'Suite Impériale',
-        desc: 'Vues panoramiques avec jardin infini privé et technologie smart-glass.'
+      title_line1: 'Chambres &',
+      title_line2: 'Suites',
+      subtitle: 'Quatre sanctuaires. Un voyage horizontal à travers l\'hospitalité Ivory.',
+      scrollHint: 'Défilez horizontalement à travers les suites',
+      perNight: '/ Nuit',
+      explore: 'Explorer la Suite',
+      featured: 'Signature',
+      specs: {
+        area65: '65m²',
+        area82: '82m²',
+        area95: '95m²',
+        area120: '120m²',
+        poolView: 'Vue Piscine',
+        oceanView: 'Vue Océan',
+        gardenView: 'Vue Jardin',
+        cityView: 'Vue Ville',
+        smartHud: 'HUD Intelligent',
+        butlerLite: 'Butler Lite',
+        terrace: 'Terrasse Privée',
+        infinityPool: 'Piscine à Débordement',
+      },
+      deluxe: {
+        tier: 'Deluxe',
+        name: 'Chambre Deluxe',
+        desc: 'Confort raffiné avec vues piscine, climat neural et linge Ivory sur mesure.',
+      },
+      premium: {
+        tier: 'Premium',
+        name: 'Suite Premium',
+        desc: 'Espace de vie élargi avec panorama océan et installations artistiques curatées.',
       },
       royal: {
-        name: 'Suite Royal Palm',
-        desc: 'L\'élégance Art Déco alliée au confort high-tech moderne.'
+        tier: 'Royal',
+        name: 'Suite Royale',
+        desc: 'Grandeur Art Déco avec terrasse privée, protocole majordome et vues dorées.',
       },
-      nomad: {
-        name: 'Studio Nomad Chic',
-        desc: 'Luxe minimaliste conçu pour l\'explorateur moderne.'
-      }
+      presidential: {
+        tier: 'Présidentielle',
+        name: 'Villa Présidentielle',
+        desc: 'L\'apex de Maison Anfa — jardin infini, murs smart-glass, intimité absolue.',
+      },
     },
     services: {
       label: 'Excellence',
@@ -175,7 +231,9 @@ export const translations = {
     },
     gallery: {
       label: 'Visuels',
-      title: 'La Galerie'
+      title: 'La Galerie',
+      subtitle: 'Un voyage dimensionnel à travers l\'arrivée, l\'eau, le bien-être, la gastronomie et le club privé.',
+      scrollHint: 'Faites défiler pour explorer chaque cadre',
     },
     testimonials: {
       label: 'Réflexions',

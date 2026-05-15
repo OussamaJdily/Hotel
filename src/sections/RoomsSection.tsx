@@ -1,14 +1,15 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Bath, BedDouble, Maximize, Sparkles } from 'lucide-react';
+import { ArrowRight, Bath, BedDouble, ChevronLeft, ChevronRight, Maximize, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/useLanguage';
 import { SectionLabel } from '@/components/SectionLabel';
-import { usePinnedHorizontalScroll } from '@/hooks/usePinnedHorizontalScroll';
+import { useHorizontalStripProgress } from '@/hooks/useHorizontalStripProgress';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 export function RoomsSection() {
   const { t } = useLanguage();
-  const sectionRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
+  const headerRef = useScrollReveal<HTMLDivElement>({ y: 36 });
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const fillRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const rooms = useMemo(
@@ -57,32 +58,33 @@ export function RoomsSection() {
     [t]
   );
 
-  const handleProgress = useCallback(
-    (p: number) => {
-      setProgress(p);
-      setActiveIndex(Math.min(rooms.length - 1, Math.round(p * (rooms.length - 1))));
-    },
-    [rooms.length]
-  );
+  const onProgress = useCallback((_p: number, index: number) => {
+    setActiveIndex(index);
+  }, []);
 
-  usePinnedHorizontalScroll(sectionRef, trackRef, {
-    endPadding: 120,
-    scrub: 0.6,
-    onProgress: handleProgress,
+  useHorizontalStripProgress(viewportRef, fillRef, {
+    slideCount: rooms.length,
+    onProgress,
   });
+
+  const scrollBySlide = (dir: -1 | 1) => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const slide = el.querySelector<HTMLElement>('[data-slide]');
+    const step = slide ? slide.offsetWidth + 20 : el.clientWidth * 0.9;
+    el.scrollBy({ left: dir * step, behavior: 'smooth' });
+  };
 
   return (
     <section
       id="rooms"
-      ref={sectionRef}
-      className="rooms-pin-section hotel-section relative w-full overflow-hidden"
+      className="h-scroll-section hotel-section relative w-full py-[80px] md:py-[120px]"
       aria-label={`${t.rooms.title_line1} ${t.rooms.title_line2}`}
     >
       <div className="premium-grid" />
-      <div className="section-ambient right-0 top-0 h-[560px] w-[560px]" />
-      <div className="scroll-rail" />
+      <div className="section-ambient right-0 top-0 h-[480px] w-[480px] opacity-25" />
 
-      <div className="rooms-pin-header relative z-20 px-6 pb-10 pt-[100px] md:px-12 md:pb-12 md:pt-[120px]">
+      <div ref={headerRef} className="relative z-10 px-6 md:px-12">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center text-center">
           <SectionLabel text={t.rooms.label} centered />
           <h2 className="mt-6 font-playfair text-[38px] leading-tight text-black dark:text-white md:text-[62px]">
@@ -96,21 +98,30 @@ export function RoomsSection() {
           </p>
         </div>
 
-        <div className="mx-auto mt-10 flex max-w-[1400px] items-center justify-between gap-6 md:mt-12">
+        <div className="mx-auto mt-10 flex max-w-[1400px] items-center justify-between gap-4 md:mt-12">
           <p className="hidden font-lato text-[10px] font-black uppercase tracking-[0.32em] text-black/40 dark:text-white/40 md:block">
             {t.rooms.scrollHint}
           </p>
-          <div className="h-scroll-progress w-full md:max-w-[380px]">
-            <div className="h-scroll-progress-fill" style={{ transform: `scaleX(${Math.max(progress, 0.02)})` }} />
+          <div className="h-scroll-progress w-full md:max-w-[360px]">
+            <div ref={fillRef} className="h-scroll-progress-fill" />
+          </div>
+          <div className="hidden shrink-0 gap-2 md:flex">
+            <button type="button" onClick={() => scrollBySlide(-1)} className="h-scroll-nav-btn" aria-label="Previous">
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button type="button" onClick={() => scrollBySlide(1)} className="h-scroll-nav-btn" aria-label="Next">
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>
 
-      <div className="rooms-pin-viewport relative z-10" data-h-scroll-viewport>
-        <div ref={trackRef} className="rooms-h-track flex w-max items-stretch gap-5 px-6 pb-8 will-change-transform md:gap-7 md:px-12 md:pb-12">
+      <div ref={viewportRef} className="rooms-strip-viewport relative z-10 mt-8 md:mt-10" data-h-scroll-viewport>
+        <div className="rooms-h-track flex w-max items-stretch gap-5 px-6 md:gap-6 md:px-12">
           {rooms.map((room, i) => (
             <article
               key={room.id}
+              data-slide
               className={`room-h-card group ${room.highlight ? 'room-h-card--featured' : ''}`}
               aria-current={activeIndex === i ? 'true' : undefined}
             >
@@ -122,6 +133,8 @@ export function RoomsSection() {
                   loading={i < 2 ? 'eager' : 'lazy'}
                   decoding="async"
                   draggable={false}
+                  width={460}
+                  height={575}
                 />
                 <div className="room-h-card-media-scrim" />
                 {room.highlight && (
@@ -140,22 +153,19 @@ export function RoomsSection() {
                 <span className="room-h-card-tier">{room.tier}</span>
                 <h3 className="room-h-card-title">{room.name}</h3>
                 <p className="room-h-card-desc">{room.description}</p>
-
                 <ul className="room-h-card-specs">
                   {room.specs.map((spec) => (
                     <li key={spec}>{spec}</li>
                   ))}
                 </ul>
-
                 <div className="room-h-card-icons">
                   <span><Maximize className="h-3.5 w-3.5" /></span>
                   <span><BedDouble className="h-3.5 w-3.5" /></span>
                   <span><Bath className="h-3.5 w-3.5" /></span>
                 </div>
-
                 <button type="button" className="room-h-card-cta group/cta">
                   <span>{t.rooms.explore}</span>
-                  <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover/cta:translate-x-1" />
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-1" />
                 </button>
               </div>
             </article>
@@ -163,12 +173,16 @@ export function RoomsSection() {
         </div>
       </div>
 
-      <div className="rooms-mobile-rail relative z-20 flex justify-center gap-2 px-6 pb-16 md:hidden">
+      <div className="mt-6 flex justify-center gap-2 md:hidden">
         {rooms.map((room, i) => (
           <button
             key={room.id}
             type="button"
             aria-label={room.name}
+            onClick={() => {
+              const slide = viewportRef.current?.querySelectorAll<HTMLElement>('[data-slide]')[i];
+              slide?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               activeIndex === i ? 'w-10 bg-[#C8A96B]' : 'w-4 bg-black/15 dark:bg-white/15'
             }`}

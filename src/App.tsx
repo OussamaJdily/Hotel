@@ -1,4 +1,5 @@
-import { lazy, Suspense, useState, useEffect, useCallback } from 'react';
+import { lazy, Suspense, useState, useCallback } from 'react';
+import { useEnable3D } from '@/hooks/useEnable3D';
 import { Navigation } from '@/components/Navigation';
 import { Preloader } from '@/components/Preloader';
 import { BackToTop } from '@/components/BackToTop';
@@ -27,16 +28,10 @@ const Master3DBg = lazy(() =>
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
+  const enable3D = useEnable3D();
 
   const handlePreloaderComplete = useCallback(() => {
     setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    // Ensure fonts are loaded before showing content
-    document.fonts.ready.then(() => {
-      // Preloader will handle the timing
-    });
   }, []);
 
   return (
@@ -44,11 +39,13 @@ export default function App() {
       <LanguageProvider>
         <div className="site-shell relative min-h-screen transition-colors duration-700">
           <Preloader onComplete={handlePreloaderComplete} />
-          <ErrorBoundary>
-            <Suspense fallback={null}>
-              <Master3DBg />
-            </Suspense>
-          </ErrorBoundary>
+          {enable3D && loaded && (
+            <ErrorBoundary>
+              <Suspense fallback={null}>
+                <Master3DBg />
+              </Suspense>
+            </ErrorBoundary>
+          )}
           <Navigation />
 
           <main>

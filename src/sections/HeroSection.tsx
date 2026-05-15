@@ -51,6 +51,7 @@ export function HeroSection({ loaded }: HeroSectionProps) {
           muted
           loop
           playsInline
+          preload="metadata"
           className="w-full h-full object-cover grayscale-[10%] dark:grayscale-[44%] brightness-[0.88] dark:brightness-[0.42] saturate-[1.08]"
         >
           <source src="/video/hero-bg.mp4" type="video/mp4" />

@@ -206,8 +206,13 @@ body::before {
     opacity: 0.42;
   }
 
+  .hotel-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+
   .section-ambient {
-    @apply absolute pointer-events-none blur-[120px] opacity-40;
+    @apply absolute pointer-events-none blur-[80px] opacity-30;
     background: conic-gradient(from 180deg, rgba(200,169,107,0.28), rgba(159,183,200,0.2), rgba(147,165,139,0.18), rgba(184,138,114,0.18), rgba(200,169,107,0.28));
   }
 
@@ -330,21 +335,33 @@ body::before {
     transform: translateY(0) translateZ(72px);
   }
 
-  /* Pinned horizontal scroll — gallery */
-  .gallery-pin-section {
-    @apply bg-transparent;
+  /* Fast horizontal strips — no scroll pin */
+  .h-scroll-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
   }
 
-  .gallery-pin-viewport {
-    @apply overflow-hidden;
+  .gallery-strip-viewport,
+  .rooms-strip-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .gallery-strip-viewport::-webkit-scrollbar,
+  .rooms-strip-viewport::-webkit-scrollbar {
+    display: none;
   }
 
   .gallery-h-track {
-    @apply gap-5 pl-6 pr-6 md:gap-7 md:pl-12 md:pr-12;
+    @apply gap-5 md:gap-6;
   }
 
   .gallery-h-slide {
-    @apply relative h-full w-[88vw] shrink-0 overflow-hidden rounded-[2rem] border border-black/10 dark:border-white/10 md:w-[72vw] md:max-w-[980px] md:rounded-[2.5rem];
+    @apply relative h-[min(58vh,520px)] w-[88vw] shrink-0 overflow-hidden rounded-[2rem] border border-black/10 dark:border-white/10 md:h-[min(62vh,580px)] md:w-[min(72vw,920px)] md:rounded-[2.5rem];
     scroll-snap-align: center;
     box-shadow: 0 28px 80px rgba(31, 25, 18, 0.14);
   }
@@ -355,12 +372,14 @@ body::before {
 
   .gallery-h-slide-img {
     @apply h-full w-full object-cover;
-    transform: scale(1.04);
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateZ(0);
   }
 
-  .gallery-h-slide:hover .gallery-h-slide-img {
-    transform: scale(1.08);
+  @media (hover: hover) {
+    .gallery-h-slide:hover .gallery-h-slide-img {
+      transform: scale(1.04) translateZ(0);
+      transition: transform 0.5s ease;
+    }
   }
 
   .gallery-h-slide-scrim {
@@ -388,34 +407,8 @@ body::before {
     will-change: transform;
   }
 
-  @media (max-width: 767px) {
-    .gallery-pin-viewport,
-    .rooms-pin-viewport {
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-
-    .gallery-pin-viewport::-webkit-scrollbar,
-    .rooms-pin-viewport::-webkit-scrollbar {
-      display: none;
-    }
-
-    .gallery-h-track,
-    .rooms-h-track {
-      transform: none !important;
-    }
-  }
-
-  /* Pinned horizontal scroll — rooms */
-  .rooms-pin-section {
-    @apply bg-transparent;
-  }
-
-  .rooms-pin-viewport {
-    @apply overflow-hidden;
+  .h-scroll-nav-btn {
+    @apply flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/80 text-black transition-colors hover:border-[#C8A96B]/50 hover:bg-[#C8A96B] hover:text-black dark:border-white/10 dark:bg-black/50 dark:text-white dark:hover:text-black;
   }
 
   .room-h-card {
@@ -425,10 +418,16 @@ body::before {
     transition: border-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
   }
 
-  .room-h-card:hover {
-    @apply border-[#C8A96B]/40;
-    transform: translateY(-6px);
-    box-shadow: 0 34px 100px rgba(112, 82, 38, 0.16);
+  @media (hover: hover) {
+    .room-h-card:hover {
+      @apply border-[#C8A96B]/40;
+      transform: translateY(-4px);
+      box-shadow: 0 34px 100px rgba(112, 82, 38, 0.16);
+    }
+
+    .room-h-card:hover .room-h-card-img {
+      transform: scale(1.06);
+    }
   }
 
   .room-h-card--featured {
@@ -443,10 +442,6 @@ body::before {
   .room-h-card-img {
     @apply h-full w-full object-cover transition-transform duration-1000 ease-out;
     transform: scale(1.05);
-  }
-
-  .room-h-card:hover .room-h-card-img {
-    transform: scale(1.1);
   }
 
   .room-h-card-media-scrim {

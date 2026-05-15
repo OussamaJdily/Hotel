@@ -33,7 +33,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
         scale: 1.1,
         opacity: 0,
         duration: 0.8,
-        delay: 2,
+        delay: 0.5,
         ease: 'power3.inOut',
       })
       .to('.preloader-bg', {
@@ -51,7 +51,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
     const timeoutId = setTimeout(() => {
       complete();
       try { tl?.kill && tl.kill(); } catch {}
-    }, 7000);
+    }, 4000);
 
     return () => {
       mounted = false;
